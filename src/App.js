@@ -1,23 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+//display is 1024x600
+import React, { useState, useEffect } from "react";
 
-function App() {
+function App(props) {
+  const [data, setdata] = useState({
+      mph: "",
+      turn_direction: "",
+    });
+    useEffect(() => {
+      // Using fetch to fetch the api from 
+      // flask server it will be redirected to proxy
+      fetch("/main").then((res) =>
+      res.json().then((data) => {
+      // Setting a data from api
+      setdata({
+        mph: data.MPH,
+        turn_direction: data.turn_direction,});
+      })
+      );
+      }, []);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className = 'test'>
+      <h1>{data.mph}</h1>
+      <div className = 'card'>
+        <h2>mph</h2>
+        <div>
+          <button id='button'>{data.turn_direction}</button>
+        </div>
+      </div>
     </div>
   );
 }
